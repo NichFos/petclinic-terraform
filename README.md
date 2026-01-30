@@ -210,17 +210,3 @@ Run the pipeline and verify:
 * Subsequent runs reuse the same state
 
 ---
-
-## Production Best Practices
-
-* 🔐 Use **separate backend** per environment (dev / qa / prod)
-* 🔄 Enable **state locking** (default with Azure Blob)
-* 📦 Store Terraform versions explicitly
-* 🚫 Never store state locally in CI/CD
-* 🔍 Monitor role assignments regularly
-
----
-
-## Outcome
-
-You now have a **secure, production-ready Terraform remote backend** integrated with Azure DevOps using least-privilege RBAC and repeatable CI/CD automation.
