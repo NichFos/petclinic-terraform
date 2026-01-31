@@ -4,15 +4,15 @@ This document describes the **production-grade setup** for a Terraform remote ba
 
 The goal is to:
 
-* Create a secure, globally unique Terraform state backend
-* Follow least-privilege RBAC principles
-* Enable reliable, repeatable CI/CD deployments
+* Create a secure, globally unique Terraform state backend  
+* Follow least-privilege RBAC principles  
+* Enable reliable, repeatable CI/CD deployments  
 
 ---
 
 ## Architecture Overview
 
-Terraform state is stored remotely in an **Azure Storage Account (Blob Container)**.
+Terraform state is stored remotely in an **Azure Storage Account (Blob Container)**.  
 Azure DevOps pipelines authenticate using a **Service Principal–based Service Connection** with scoped RBAC permissions.
 
 ```
@@ -35,10 +35,55 @@ Storage Account (Blob Container: terraform-state)
 * Azure Subscription (Owner or User Access Administrator permissions)
 * Azure CLI (`az`) installed and authenticated
 * Azure DevOps Project with permissions to create:
-
   * Service Connections
   * Pipelines
   * Repositories
+
+---
+
+## Step 0: Install the Terraform Extension (Organization Level)
+
+Azure DevOps does **not** include Terraform tasks by default. You must install the official Terraform extension at the **organization level** before any pipeline can use Terraform tasks.
+
+### Option A: Install via Azure DevOps UI (Recommended)
+
+1. Sign in to **Azure DevOps**
+2. In the top-left, click **Organization settings**
+3. Go to **Extensions**
+4. Click **Browse marketplace**
+5. In the search box, search for:
+
+   ```text
+   Terraform
+   ```
+
+6. Select **Terraform by Microsoft DevLabs**
+7. Click **Get it free**
+8. Choose the **Organization** you want to install it into
+9. Click **Install**
+
+### Verify Installation
+
+1. Go to **Organization settings → Extensions**
+2. Confirm **Terraform** appears in the installed extensions list
+3. Open a pipeline YAML editor and verify tasks such as:
+   * `TerraformInstaller@1`
+   * `TerraformTaskV4@4`  
+   are available (they should appear via autocomplete)
+
+### Why This Is Required
+
+Without this extension:
+
+* Pipelines will fail with **“Task not found”**
+* You won’t have the official Terraform tasks available
+* You’ll be forced to script Terraform manually
+
+Installing it at the **organization level** ensures:
+
+* All projects can use Terraform tasks
+* Consistent tooling across teams
+* Cleaner, more maintainable pipelines
 
 ---
 
@@ -81,7 +126,7 @@ These values are required later for the pipeline.
 
 ### Recommended Authentication Method
 
-✅ **Azure Resource Manager – Service Principal (Automatic)**
+✅ **Azure Resource Manager – Service Principal (Automatic)**  
 This ensures:
 
 * Credential rotation handled by Azure
@@ -96,7 +141,6 @@ This ensures:
 4. Choose **Azure Resource Manager**
 5. Select **Service Principal (automatic)**
 6. Scope Level:
-
    * **Subscription** (recommended for shared Terraform backends)
 7. Select the target subscription
 8. Check **Grant access permission to all pipelines** (or restrict explicitly)
@@ -167,7 +211,6 @@ az role assignment create \
 
 1. Create a new Azure DevOps Git repository
 2. Add the provided files:
-
    * Terraform configuration
    * Backend configuration
    * Pipeline YAML
@@ -208,5 +251,3 @@ Run the pipeline and verify:
 * Backend initialization succeeds
 * State file is created in Blob Storage
 * Subsequent runs reuse the same state
-
----
