@@ -24,3 +24,5 @@ provider "azurerm" {
   # Add this line to stop Terraform from trying to register providers
   skip_provider_registration = true
 }
+
+#

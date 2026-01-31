@@ -159,6 +159,12 @@ azurerm-terraform-backend
 10. Create the service connection
 
 ---
+## Step 2.9 
+In the ADO GUI, after the service connection has been created, click on Manage App registration
+
+This will take you to the Azure console
+
+Where it says display name, copy it. We will need this for the next step.
 
 ## Step 3: Assign RBAC Permissions (Least Privilege)
 

@@ -21,3 +21,4 @@ variable "admin_password" {
   type        = string
   default     = "PetClinic!2026!Azure"
 }
+#

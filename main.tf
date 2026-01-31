@@ -277,3 +277,5 @@ resource "azurerm_api_management_api" "petclinic_api" {
     content_value  = "https://raw.githubusercontent.com/spring-petclinic/spring-petclinic-rest/master/src/main/resources/openapi.yml"
   }
 }
+
+#

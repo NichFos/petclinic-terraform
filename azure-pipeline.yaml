@@ -94,4 +94,4 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     commandOptions: 'main.tfplan' # Applies the exact plan from Stage 1
-                    environmentServiceNameAzureRM: '$(azureServiceConnection)'
+                    environmentServiceNameAzureRM: '$(azureServiceConnection)' #
